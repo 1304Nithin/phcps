@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DressUp with AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Borel&family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="landing-page">
+        <video autoplay loop muted playsinline class="video-bg">
+            <source src="bac.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay"></div>
+        <div class="content">
+            <div class="top-nav">
+                <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+                <div class="slide-in-menu">
+                    <div class="close-menu" onclick="closeMenu()">&times;</div>
+                    <nav>
+                        <ul>
+                            <li class="radio-canada-big" ><a href="#home">HOME</a></li>
+                            <li class="radio-canada-big"><a href="http://127.0.0.1:4949/">DRESSUP</a></li>
+                            <li class="radio-canada-big"><a href="#virtual-closet">VIRTUAL CLOSET</a></li>
+                            <li class="radio-canada-big"><a href="#login">LOGIN/SIGNUP</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="column left">
+                <h1 class="borel-regular">DressUp with AI</h1>
+                <p class="radio-canada-big">Your personal fashion assistant</p>
+                <button class="radio-canada-big" onclick="startDressingUp()">Let's Dress Up</button>
+            </div>
+            <div class="column right">
+                <div class="image-slider">
+                    <img src="i.png" alt="Image 1">
+                    <img src="image2.png" alt="Image 2">
+                    <img src="image3.png" alt="Image 3">
+                </div>
+            </div>
+            
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        function startDressingUp() {
+    alert('Redirecting to DressUp with AI...');
+    
+    window.location.href = 'http://127.0.0.1:4949/'; 
+}
+
+
+        function toggleMenu() {
+            document.querySelector('.slide-in-menu').classList.toggle('open');
+        }
+
+        function closeMenu() {
+            document.querySelector('.slide-in-menu').classList.remove('open');
+        }
+    </script>
+</body>
+</html>

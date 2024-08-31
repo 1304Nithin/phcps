@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DressUp with AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="landing-page">
+        <video autoplay loop muted playsinline class="video-bg">
+            <source src="{{ url_for('static', filename='d.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay"></div>
+        <div class="content">
+            <div class="top-nav">
+                <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+                <div class="slide-in-menu">
+                    <div class="close-menu" onclick="closeMenu()">&times;</div>
+                    <nav>
+                        <ul>
+                            <li class="radio-canada-big"><a href="http://localhost/DressUp%20With%20AI/">HOME</a></li>
+                            <li class="radio-canada-big"><a href="#dressup">DRESSUP</a></li>
+                            <li class="radio-canada-big"><a href="#virtual-closet">VIRTUAL CLOSET</a></li>
+                            <li class="radio-canada-big"><a href="#login">LOGIN/SIGNUP</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="column right">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <div class="chat-message bot-message">
+                <i class="material-icons bot-icon">smart_toy</i>
+                <span class="bot-text">Hi there! I'm Clothzy, your personal fashion assistant.</span>
+            </div>
+            <div class="product-container">
+                {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ product.image_url }}" alt="{{ product.title }}">
+                    <div class="product-title">{{ product.title }}</div>
+                    <div class="product-price">{{ product.price }}</div>
+                    <a href="{{ product.product_url }}" class="buy-now-btn" target="_blank">Buy Now</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <form id="user-input-form">
+            <input type="text" id="user-input" name="user_input" placeholder="Type your message..." autocomplete="off">
+            <button type="submit">Send</button>
+        </form>
+        
+    </div>
+
+    <script>
+        document.getElementById('user-input-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const userInput = document.getElementById('user-input').value;
+            if (userInput.trim() === "") {
+                return;
+            }
+
+            const chatBox = document.getElementById('chat-box');
+
+            // Append user message to chat box
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('chat-message', 'user-message');
+            userMessage.innerHTML = `<span class="user-text">${userInput}</span>`;
+            chatBox.appendChild(userMessage);
+
+            // Clear the input field
+            document.getElementById('user-input').value = "";
+
+            // Send AJAX request to the server
+            fetch('/get_response', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `user_input=${encodeURIComponent(userInput)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+               
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('chat-message', 'bot-message');
+                botMessage.innerHTML = `<i class="material-icons bot-icon">smart_toy</i>
+                                        <span class="bot-text">${data.response}</span>`;
+                chatBox.appendChild(botMessage);
+                chatBox.scrollTop = chatBox.scrollHeight; 
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        function toggleMenu() {
+            document.querySelector('.slide-in-menu').classList.toggle('open');
+        }
+
+        function closeMenu() {
+            document.querySelector('.slide-in-menu').classList.remove('open');
+        }
+    </script>
+</body>
+</html>
